@@ -74,8 +74,8 @@ class MainController(BaseController):
     def albums(self):
         """ controller for the albums frame """
 
-        c.artist = request.GET.get('artist', '').encode('utf-8')
-        c.album = request.GET.get('album', '').encode('utf-8')
+        c.artist = request.GET.get('artist', u'')
+        c.album = request.GET.get('album', u'')
 
         try:
             self.m = g.p.connect()
@@ -91,8 +91,8 @@ class MainController(BaseController):
     def tracks(self):
         """ controller for the tracks frame """
 
-        c.artist = request.GET.get('artist', '').encode('utf-8')
-        c.album = request.GET.get('album', '').encode('utf-8')
+        c.artist = request.GET.get('artist', u'')
+        c.album = request.GET.get('album', u'')
         try:
             self.m = g.p.connect()
         except (NoMPDConnection, ConnectionClosed):
@@ -100,8 +100,8 @@ class MainController(BaseController):
 
         c.tracks = self.m.tracks(c.artist, c.album)
 
-        c.artist_safe = h.html.url_escape(c.artist)
-        c.album_safe = h.html.url_escape(c.album)
+        c.artist_safe = h.html.url_escape(c.artist.encode('utf-8'))
+        c.album_safe = h.html.url_escape(c.album.encode('utf-8'))
 
         return render('/tracks.html')
  
@@ -111,8 +111,8 @@ class MainController(BaseController):
         if it doesn't exist, attempt to fetch it from Amazon and save to disk 
         """
             
-        artist = request.GET.get('artist', '').encode('utf-8')
-        album = request.GET.get('album', '').encode('utf-8')
+        artist = request.GET.get('artist', u'')
+        album = request.GET.get('album', u'')
         response.headers['Content-type'] = 'image/jpeg'
 
         try:
@@ -245,14 +245,14 @@ class MainController(BaseController):
         self.m = g.p.connect()
         files = request.POST.getall('file')
         for f in files:
-            self.m.add(f.encode('utf-8'))
+            self.m.add(f)
 
         c.content = '<script language="javascript">window.parent.frames[\'frmplaylist\'].location.reload();</script>'
         return render('/null.html')
 
     def search(self):
         searchtype = request.GET.get('searchtype', 'Artist')
-        q = request.GET.get('q').encode('utf-8')
+        q = request.GET.get('q')
 
         if q and len(q) > 2:
             self.m = g.p.connect()
@@ -331,7 +331,7 @@ class MainController(BaseController):
  
     def filesystem(self):
         self.m = g.p.connect()
-        c.path = request.GET.get('path', '/').encode('utf-8')
+        c.path = request.GET.get('path', '/')
         c.lsinfo = self.m.lsinfo(c.path)
 
         c.uppath = '/'.join(c.path.split('/')[:-1])

@@ -50,29 +50,29 @@ def timestamp_to_friendly_date(ts):
 
 def format_title(t,trackno=None):
     try:
-        t['formattedtrack'] = "%02d. %s" % (int(t['track']),t['title'])
+        t['formattedtrack'] = u"%02d. %s" % (int(t['track']),t['title'])
     except KeyError,e:
         if 'title' in t:
-            t['formattedtrack'] = "%s" % (t['title'])
+            t['formattedtrack'] = u"%s" % (t['title'])
     except ValueError,e:
         if 'title' in  t:
-            t['formattedtrack'] = "%s. %s" % (t['track'],t['title'])
+            t['formattedtrack'] = u"%s. %s" % (t['track'],t['title'])
         else:
             if 'title' in t:
-                t['formattedtrack'] = "%s" % t['title']
+                t['formattedtrack'] = u"%s" % t['title']
     
     if not 'formattedtrack' in t:
         if trackno:
-            t['formattedtrack'] = "%d." % trackno
+            t['formattedtrack'] = u"%d." % trackno
         else:
-            t['formattedtrack'] = '<unknown>'
+            t['formattedtrack'] = u'<unknown>'
 
 def format_title_search(t):
     try:
-        t['formattedtrack'] = "%s - %s - %s" % (t['artist'],t['album'],t['title'])
+        t['formattedtrack'] = u"%s - %s - %s" % (t['artist'],t['album'],t['title'])
     except KeyError,e:
         if 'title' in t:
-            t['formattedtrack'] = "%s" % (t['title'])
+            t['formattedtrack'] = u"%s" % (t['title'])
     
     if not 'formattedtrack' in t:
-        t['formattedtrack'] = "%s" % t['file']
+        t['formattedtrack'] = u"%s" % t['file']

@@ -34,7 +34,7 @@
                 h.format_title_search(t)                    
 			%>
 
-            <li><a ${title} onclick="addToPlaylist('${h.html.url_escape(t['file'])}')"><img src="/img/add.png" /> ${t['formattedtrack']}</a></li>
+            <li><a ${title} onclick="addToPlaylist('${h.html.url_escape(t['file'].encode('utf-8'))}')"><img src="/img/add.png" /> ${t['formattedtrack']}</a></li>
         % endfor
     </ul>
 </div>

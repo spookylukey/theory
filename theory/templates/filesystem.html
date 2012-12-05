@@ -30,20 +30,20 @@
     }
 </style>
 <div id="container-tracks">
-	<h2>${c.path} <a id="addfiles" title="add these files to the playlist" onclick="addPathToPlaylist('${h.html.url_escape(c.path)}')" style="cursor:pointer"><img src="/img/add.png" /></a></h2>
+	<h2>${c.path} <a id="addfiles" title="add these files to the playlist" onclick="addPathToPlaylist('${h.html.url_escape(c.path.encode('utf-8'))}')" style="cursor:pointer"><img src="/img/add.png" /></a></h2>
     <ul id="list">
         % if c.path != '/':
             <li><a href="/filesystem?path=/"><img src="/img/folder_go.png" /> /</a></li>
-            <li><a href="/filesystem?path=${h.html.url_escape(c.uppath)}"><img src="/img/folder_go.png" /> ..</a></li>
+            <li><a href="/filesystem?path=${h.html.url_escape(c.uppath.encode('utf-8'))}"><img src="/img/folder_go.png" /> ..</a></li>
         % endif
         % for f in c.lsinfo:
             % if 'directory' in f:
-                <li><a href="/filesystem?path=${h.html.url_escape(f['directory'])}"><img src="/img/folder_go.png" /> ${f['directory'].split('/')[-1]}</a></li>
+                <li><a href="/filesystem?path=${h.html.url_escape(f['directory'].encode('utf-8'))}"><img src="/img/folder_go.png" /> ${f['directory'].split('/')[-1]}</a></li>
             % elif 'file' in f:
                 <% 
                     h.format_title(f)
                 %>
-                <li class="musicfile"><a onclick="addToPlaylist('${h.html.url_escape(f['file'])}')"><img src="/img/add.png" /> ${f['formattedtrack']}</a></li>
+                <li class="musicfile"><a onclick="addToPlaylist('${h.html.url_escape(f['file'].encode('utf-8'))}')"><img src="/img/add.png" /> ${f['formattedtrack']}</a></li>
             % endif
         % endfor
     </ul>

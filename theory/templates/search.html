@@ -9,13 +9,11 @@
             <ul id="list">
             % for a in c.artists:
                 <%
-                    fixed_artist = a.decode('utf-8')
-
                     try:
-                        if a.startswith(('The ','THE ','the ')):
-                            firstchar = fixed_artist[4].lower()
+                        if a.startswith((u'The ',u'THE ',u'the ')):
+                            firstchar = a[4].lower()
                         else:
-                            firstchar = fixed_artist[0].lower()
+                            firstchar = a[0].lower()
                     except IndexError:
                         firstchar = ''
                 %>  
@@ -31,10 +29,10 @@
             <ul id="list">
             % for a in c.albums:
                 <%
-                    artist_utf8 = a[0].decode('utf-8')
-                    album_utf8 = a[1].decode('utf-8')
+                    artist = a[0]
+                    album = a[1]
                 %>
-                <li><a onclick="artistAlbums('${h.escape_js(artist_utf8)}');albumTracks('${h.escape_js(artist_utf8)}','${h.escape_js(album_utf8)}')">${artist_utf8} - ${album_utf8}</a></li>
+                <li><a onclick="artistAlbums('${h.escape_js(artist)}');albumTracks('${h.escape_js(artist)}','${h.escape_js(album)}')">${artist} - ${album}</a></li>
             % endfor
             </ul>
         </div>
@@ -46,11 +44,11 @@
             <ul id="list">
             % for t in c.tracks:
                 <%
-                    artist_utf8 = t[0].decode('utf-8')
-                    album_utf8 = t[1].decode('utf-8')
-                    title_utf8 = t[2].decode('utf-8')
+                    artist = t[0]
+                    album = t[1]
+                    title = t[2]
                 %>
-                <li><a onclick="addToPlaylist('${h.html.url_escape(t[3])}')"><img src="/img/add.png" /> ${artist_utf8} - ${title_utf8}</a></li>
+                <li><a onclick="addToPlaylist('${h.html.url_escape(t[3].encode('utf-8'))}')"><img src="/img/add.png" /> ${artist} - ${title}</a></li>
             % endfor
         </ul>
     % endif

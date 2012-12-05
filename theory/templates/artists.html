@@ -22,15 +22,13 @@
         <a name='jump#'></a>
         <% lastlead = '' %>
 
-        % for a in c.artists:
+        % for artist in c.artists:
             <%
-				fixed_artist = a.decode('utf-8')
-
 				try:
-					if a.startswith(('The ','THE ','the ')):
-						firstchar = fixed_artist[4].lower()
+					if artist.startswith((u'The ',u'THE ',u'the ')):
+						firstchar = artist[4].lower()
 					else:
-						firstchar = fixed_artist[0].lower()
+						firstchar = artist[0].lower()
 				except IndexError:
 					firstchar = ''
             %>  
@@ -38,7 +36,7 @@
                 % if firstchar != lastlead:
                     <a name="jump${firstchar}"></a>
                 % endif
-                <a onclick="artistAlbums('${h.escape_js(fixed_artist)}')">${fixed_artist}</a>
+                <a onclick="artistAlbums('${h.escape_js(artist)}')">${artist}</a>
             </li>
             <% lastlead = firstchar %>
         % endfor

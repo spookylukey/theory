@@ -45,7 +45,7 @@ class mpdhelper(object):
 
     def connect(self):
         log.debug('Attempting to connect to %s:%s' % (self.g.tc.server, self.g.tc.port))
-        self.mpdc = mpd.MPDClient()
+        self.mpdc = mpd.MPDClient(use_unicode=True)
         self.mpdc.connect(self.g.tc.server, self.g.tc.port)
         if self.g.tc.password:
             self.mpdc.password(self.g.tc.password)

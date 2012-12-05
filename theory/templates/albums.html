@@ -35,15 +35,14 @@
 
 <div id="container-artists">
     <ul id="list">
-        % for a in c.albums:
+        % for album in c.albums:
 			<%
-				album_utf8 = a.decode('utf-8')
-				if album_utf8 == c.album:
+				if album == c.album:
 					addclass = 'class=activerow'
 				else:
 					addclass = ''
 			%>
-            <li><a onclick="window.parent.addAlbum('${h.escape_js(c.artist)}','${h.escape_js(album_utf8)}')"><img src="./img/add.png" title="queue entire album" style="float:left;margin-right:5px;" /></a><a ${addclass} onclick="albumTracks('${h.escape_js(c.artist)}','${h.escape_js(album_utf8)}')">${album_utf8}</a></li>
+            <li><a onclick="window.parent.addAlbum('${h.escape_js(c.artist)}','${h.escape_js(album)}')"><img src="./img/add.png" title="queue entire album" style="float:left;margin-right:5px;" /></a><a ${addclass} onclick="albumTracks('${h.escape_js(c.artist)}','${h.escape_js(album_utf8)}')">${album}</a></li>
         % endfor
     </ul>
 </div>
