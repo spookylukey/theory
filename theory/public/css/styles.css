@@ -1,5 +1,5 @@
 body {
-    font-size:62.5%;
+    font-size: 14px;
     background-color:#333333;
     font-family:'lucida sans','lucide console',arial,sans-serif;
 }
@@ -252,7 +252,7 @@ ul#playlist li a img {
 
 #widgets {
     margin-left:380px;
-    margin-top:33px;
+    margin-top:40px;
 }
 
 #widgets a {
@@ -299,7 +299,7 @@ div.playlist-tooltip a:hover {
 
 div.frameheader {
     float:left;
-    height:11px;
+    height:16px;
     width:50%;
     text-align:center;
     color:white;
@@ -309,7 +309,7 @@ div.frameheader {
 div#playlistheader {
     background-color:#333333;
     text-align:center;
-    height:11px;
+    height:16px;
     color:white;
     font-weight:bold;
 }
