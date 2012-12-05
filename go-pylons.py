@@ -1140,6 +1140,8 @@ def after_install(options, home_dir):
     if not os.path.exists(etc):
         os.makedirs(etc)
     subprocess.call([join(bin_dir, 'easy_install'),
+                    'WebOb==1.0.8']) # Pylons will bring in a later version that is incompatible
+    subprocess.call([join(bin_dir, 'easy_install'),
         '-f', 'http://pylonshq.com/download/1.0', 'Pylons==1.0'])
 
 
