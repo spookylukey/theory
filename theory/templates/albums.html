@@ -42,7 +42,7 @@
 				else:
 					addclass = ''
 			%>
-            <li><a onclick="window.parent.addAlbum('${h.escape_js(c.artist)}','${h.escape_js(album)}')"><img src="./img/add.png" title="queue entire album" style="float:left;margin-right:5px;" /></a><a ${addclass} onclick="albumTracks('${h.escape_js(c.artist)}','${h.escape_js(album_utf8)}')">${album}</a></li>
+            <li><a onclick="window.parent.addAlbum('${h.escape_js(c.artist)}','${h.escape_js(album)}')"><img src="./img/add.png" title="queue entire album" style="float:left;margin-right:5px;" /></a><a ${addclass} onclick="albumTracks('${h.escape_js(c.artist)}','${h.escape_js(album)}')">${album}</a></li>
         % endfor
     </ul>
 </div>
