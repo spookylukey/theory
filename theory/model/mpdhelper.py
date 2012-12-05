@@ -87,7 +87,7 @@ class mpdhelper(object):
                 pass
         else:
             tracks = self.find('artist', artist)
-            tracks.sort(self._sorttracktitle)
+            tracks.sort(self._sorttrackalbumandnumber)
 
         trackno = 1
 
@@ -186,6 +186,18 @@ class mpdhelper(object):
             yt = yt.split('/')[0]
 
         return cmp(int(xt),int(yt))
+
+    def _sorttrackalbumandnumber(self,x,y):
+        xt = x['track']
+        yt = y['track']
+
+        if '/' in xt:
+            xt = xt.split('/')[0]
+
+        if '/' in yt:
+            yt = yt.split('/')[0]
+
+        return cmp((x['album'], int(xt)), (y['album'], int(yt)))
 
     def _sortartists(self,x,y):
         x = x.lower()
