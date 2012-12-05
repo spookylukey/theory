@@ -11,7 +11,7 @@ start() {
 		exit
 	fi
 	echo "starting theory"
-	"$SELF/env/bin/paster" serve --daemon --reload --log-file "$SELF/theory.log" "$SELF/server.ini" && echo "theory started, http://localhost:9099/ if you're using the default port"
+	"$SELF/env/bin/paster" serve --daemon --log-file "$SELF/theory.log" "$SELF/server.ini" && echo "theory started, http://localhost:9099/ if you're using the default port"
 }
 
 stop() {
