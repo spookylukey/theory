@@ -188,8 +188,8 @@ class mpdhelper(object):
         return cmp(int(xt),int(yt))
 
     def _sorttrackalbumandnumber(self,x,y):
-        xt = x['track']
-        yt = y['track']
+        xt = x.get('track', '0')
+        yt = y.get('track', '0')
 
         if '/' in xt:
             xt = xt.split('/')[0]
