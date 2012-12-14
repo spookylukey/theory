@@ -72,7 +72,7 @@ class mpdhelper(object):
     @wrap_error
     def artists(self):
         artists = self.list('artist')
-        artists.sort(self._sortartists)
+        artists.sort(key=self._key_artists)
         return artists
 
     @wrap_error
@@ -82,12 +82,12 @@ class mpdhelper(object):
         if album:
             tracks = self.find('artist', artist, 'album', album)
             try:
-                tracks.sort(self._sorttrackno)
+                tracks.sort(key=self._key_track_no)
             except (ValueError, KeyError):
                 pass
         else:
             tracks = self.find('artist', artist)
-            tracks.sort(self._sorttrackalbumandnumber)
+            tracks.sort(key=self._key_track_album_and_number)
 
         trackno = 1
 
@@ -175,49 +175,26 @@ class mpdhelper(object):
 
         return False
 
-    def _sorttrackno(self,x,y):
-        xt = x['track']
-        yt = y['track']
+    def _key_track_no(self, x):
+        t = x.get('track', '0')
 
-        if '/' in xt:
-            xt = xt.split('/')[0]
+        if '/' in t:
+            t = t.split('/')[0]
 
-        if '/' in yt:
-            yt = yt.split('/')[0]
+        d = x.get('disc', '1')
 
-        return cmp(int(xt),int(yt))
+        return (int(d), int(t))
 
-    def _sorttrackalbumandnumber(self,x,y):
-        xt = x.get('track', '0')
-        yt = y.get('track', '0')
+    def _key_track_album_and_number(self, x):
+        d, t = self._key_track_no(x)
 
-        if '/' in xt:
-            xt = xt.split('/')[0]
+        return (x['album'], d, t)
 
-        if '/' in yt:
-            yt = yt.split('/')[0]
-
-        return cmp((x['album'], int(xt)), (y['album'], int(yt)))
-
-    def _sortartists(self,x,y):
+    def _key_artists(self, x):
         x = x.lower()
-        y = y.lower()
-
         if x[:4] == 'the ': x = x[4:]
-        if y[:4] == 'the ': y = y[4:]
+        return x
 
-        return cmp(x,y)
-
-    def _sorttracktitle(self,x,y):
-        if 'title' in x and 'title' in y:
-            for track in (x,y):
-                if type(track['title']) == list:
-                    track['title'] = track['title'][0]
-
-            return cmp(x['title'].lower(),y['title'].lower())
-        else:
-            return cmp(x['file'],y['file'])
-            
     @wrap_error
     def __getattr__(self,attr):
         log.debug('getattr: %s' % attr)
