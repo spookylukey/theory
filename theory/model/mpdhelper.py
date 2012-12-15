@@ -77,17 +77,17 @@ class mpdhelper(object):
 
     @wrap_error
     def tracks(self,artist,album=None):
-        # this is really ugly!
+        if not album and not artist:
+            return [] # don't want to list entire DB
 
+        args = []
+        if artist:
+            args.extend(['artist', artist])
         if album:
-            tracks = self.find('artist', artist, 'album', album)
-            try:
-                tracks.sort(key=self._key_track_no)
-            except (ValueError, KeyError):
-                pass
-        else:
-            tracks = self.find('artist', artist)
-            tracks.sort(key=self._key_track_album_and_number)
+            args.extend(['album', album])
+
+        tracks = self.find(*tuple(args))
+        tracks.sort(key=self._key_track_album_and_number)
 
         trackno = 1
 
@@ -101,8 +101,14 @@ class mpdhelper(object):
 
     @wrap_error
     def albums(self,artist):
-        albums = self.list('album',artist)
-        albums.sort(lambda x,y: cmp(x.lower(),y.lower()))
+        if artist:
+            albums = self.list('album', artist)
+        else:
+            albums = self.list('album')
+        albums.sort(key=lambda x: x.lower())
+        if not artist:
+            # Don't have entry for '[no album]' i.e. album=='' if no artist selected
+            albums = [a for a in albums if a]
         return albums
 
     @wrap_error
@@ -175,7 +181,7 @@ class mpdhelper(object):
 
         return False
 
-    def _key_track_no(self, x):
+    def _key_track_album_and_number(self, x):
         t = x.get('track', '0')
 
         if '/' in t:
@@ -183,12 +189,7 @@ class mpdhelper(object):
 
         d = x.get('disc', '1')
 
-        return (int(d), int(t))
-
-    def _key_track_album_and_number(self, x):
-        d, t = self._key_track_no(x)
-
-        return (x['album'], d, t)
+        return (x.get('album', ''), int(d), int(t))
 
     def _key_artists(self, x):
         x = x.lower()
