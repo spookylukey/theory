@@ -10,13 +10,11 @@
 				empty_playlist_background();
 			%endif
             $('#fakeborder').height(window.innerHeight);
-            setPlaylistColors();
             $('#playlist').sortable({
                                         start: function(e,ui) {
                                                     window.parent.sliding = true;
                                                },
                                         stop: function() {
-                                                    setPlaylistColors()
                                                     var url = './mpdcontrol/reorderplaylist';
                                                     $.ajax({
                                                                 url: url,

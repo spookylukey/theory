@@ -173,15 +173,17 @@ ul#alpha li a {
 	margin-bottom:40px;
 }
 
-.oddrow {
+#list li:nth-child(2n+1),
+#playlist li:nth-child(2n+1) {
     background-color:#eeeeee;
 }
 
-.evenrow {
+#list li:nth-child(2n),
+#playlist li:nth-child(2n) {
     background-color:#dcdcdc;
 }
 
-.selectedtrack {
+#playlist li.selectedtrack {
     background-color:#C1F4F0;
 }
 
@@ -203,7 +205,7 @@ ul#list li a:hover {
     background-color:#FF9616;
 }
 
-.activerow {
+#list .activerow {
 	background-color:#0E7500 !important;
 	color:white !important;
 }

@@ -185,10 +185,13 @@ function getStatus() {
 
             if ($('#currentid').val() != data.track.id || $('#playlist li.selectedtrack',window.frames['frmplaylist'].document).length == 0) {
                 $('#currentid').val(data.track.id);
-
                 // this/ doesn't work on the initial page load because the frame isn't ready
-                setPlaylistColors(window.frames['frmplaylist'].document,true);
-                $('#playlist li[id^=track_' + data.track.id + ':]',window.frames['frmplaylist'].document).addClass('selectedtrack');
+                $('#playlist', window.frames['frmplaylist'].document)
+                    .find('li')
+                    .removeClass('selectedtrack')
+                    .end()
+                    .find('li[id^=track_' + data.track.id + ':]')
+                    .addClass('selectedtrack');
             }
 
             $('#currentid').val(data.track.id)
@@ -304,8 +307,7 @@ function artistAlbums(artist,album) {
     window.parent.$('#frmtracks').attr('src','./tracks?artist=' + encodeURIComponent(artist) + '&album=' + encodeURIComponent(album))
 
 	
-	$('#list li:odd a',window.parent.frames['frmartists'].document).removeClass('activerow').addClass('oddrow');
-	$('#list li:even a',window.parent.frames['frmartists'].document).removeClass('activerow').addClass('evenrow');
+	$('#list li a',window.parent.frames['frmartists'].document).removeClass('activerow');
 	$('#list li a:contains(' + artist + ')',window.parent.frames['frmartists'].document).each(
 		function() {
 			if ($(this).html() == artist)
@@ -325,8 +327,7 @@ function artistAlbums(artist,album) {
 function albumTracks(artist,album) {
     window.parent.$('#frmtracks').attr('src','/tracks?artist=' + encodeURIComponent(artist) + '&album=' + encodeURIComponent(album))
 
-	$('#list li:odd a',window.parent.frames['frmalbums'].document).removeClass('activerow').addClass('oddrow');
-	$('#list li:even a',window.parent.frames['frmalbums'].document).removeClass('activerow').addClass('evenrow');
+	$('#list li a',window.parent.frames['frmalbums'].document).removeClass('activerow');
 	$('#list li a:contains(' + album + ')',window.parent.frames['frmalbums'].document).each(
 		function() {
             // wow this is a hack!
@@ -379,7 +380,6 @@ function removeTrack(el,id) {
             cache: false,
             success: function() {
                         $(el).parent().remove();
-                        setPlaylistColors(document)
 						if ($('#playlist li').length == 0) {
 							empty_playlist_background();
 						}
@@ -416,22 +416,11 @@ function removeMultipleTracks() {
 						for(i = 0; i < all_ids.length(); i++) {
 							$('ul#playlist li#' + all_ids[i]).remove();
 						}
-                        setPlaylistColors(document)
 						if ($('#playlist li').length == 0) {
 							empty_playlist_background();
 						}
                      }
           });
-}
-
-function setPlaylistColors(scope,force) {
-    var addl = '';
-
-    if (force != true)
-        addl = ':not(li.selectedtrack)';
-
-    $('#playlist li:even' + addl,scope).removeClass('selectedtrack').removeClass('evenrow').addClass('oddrow');
-    $('#playlist li:odd' + addl,scope).removeClass('selectedtrack').removeClass('oddrow').addClass('evenrow');
 }
 
 function playNow(id) {
