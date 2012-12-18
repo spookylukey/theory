@@ -314,14 +314,6 @@ function artistAlbums(artist,album) {
 				$(this).addClass('activerow');
 		}
 	);
-
-	if (window.location.pathname != './artists') {
-		if (artist.charCodeAt(0) < 65)
-			jumpa = '#';
-		else 
-			jumpa = artist.charAt(0).toLowerCase();
-		window.parent.jump(jumpa);
-	}
 }
 
 function albumTracks(artist,album) {
