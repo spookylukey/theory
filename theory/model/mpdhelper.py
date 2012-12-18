@@ -182,12 +182,16 @@ class mpdhelper(object):
         return False
 
     def _key_track_album_and_number(self, x):
-        t = x.get('track', '0')
+        t = x.get('track', u'0')
 
-        if '/' in t:
-            t = t.split('/')[0]
+        if u'/' in t:
+            t = t.split(u'/')[0]
 
-        d = x.get('disc', '1')
+        d = x.get('disc', u'1').strip()
+        if u'/' in d:
+            d = d.split(u'/')[0]
+        if d in [u'', u'0']:
+            d = '1'
 
         return (x.get('album', ''), int(d), int(t))
 
